@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,6 +41,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.unitconverter.ui.theme.UnitConverterTheme
@@ -117,7 +119,7 @@ fun UnitConverter() {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         //Here all the UI elements will be stacked below each other
 
@@ -143,8 +145,7 @@ fun UnitConverter() {
         label = {Text("Enter Value", color = Color.White, fontFamily = fontFamily) })
         Spacer(modifier = Modifier.height(32.dp))
 
-        Row {
-            //Input Box
+        Row { //Input Box
             Box{
                 //Input Button
                 Button(onClick = { iExpanded = true}) {
@@ -155,7 +156,8 @@ fun UnitConverter() {
                 }
                 DropdownMenu(expanded = iExpanded,
                     onDismissRequest = { iExpanded = false },
-                    Modifier.padding(12.dp)) {
+                    Modifier.background(colorResource(R.color.pink_lace)).padding(0.dp, 18.dp),
+                    offset = DpOffset(y = 12.dp, x = 12.dp)) {
                     DropdownMenuItem(text = {Text("Millimeters")},
                         onClick = {
                          iExpanded = false
@@ -252,6 +254,7 @@ fun UnitConverter() {
             //Spacer(modifier = Modifier.width(16.dp))
             //Output Box
             Box{
+
                 //Output Button
                 Button(onClick = { oExpanded = true }) {
                     Text(outputUnit)
@@ -261,7 +264,8 @@ fun UnitConverter() {
                 }
                 DropdownMenu(expanded = oExpanded,
                     onDismissRequest = {oExpanded = false },
-                    Modifier.padding(12.dp)) {
+                    Modifier.background(colorResource(R.color.pink_lace)).padding(0.dp, 18.dp),
+                    offset = DpOffset(y = 12.dp, x = 12.dp)) {
                     DropdownMenuItem(text = {Text("Millimeters")},
                         onClick = {
                             oExpanded = false
@@ -373,12 +377,16 @@ fun UnitConverter() {
                     || inputUnit == "Pounds" || inputUnit == "Ounces")
                 && (outputUnit == "Kilometers" || outputUnit == "Millimeters" || outputUnit == "Centimeters"
             || outputUnit == "Feet" || outputUnit == "Miles" || outputUnit == "Inches" || outputUnit == "Meters")){
-                Text("Unable to convert weight units into distance units")
+                Text("Unable to convert weight units into distance units",
+                    style = MaterialTheme.typography.headlineMedium,
+                    textAlign = TextAlign.Center)
         }else if ((inputUnit == "Kilometers" || inputUnit == "Millimeters" || inputUnit == "Centimeters"
             || inputUnit == "Feet" || inputUnit == "Miles" || inputUnit == "Inches") && (outputUnit == "Milligrams"
                     || outputUnit == "Grams" || outputUnit == "Kilograms" || outputUnit == "Pounds"
                     || outputUnit == "Ounces")){
-            Text("Unable to convert distance units into weight units")
+            Text("Unable to convert distance units into weight units",
+                style = MaterialTheme.typography.headlineMedium,
+                textAlign = TextAlign.Center)
         }
         else{
             Text("$outputValue $outputUnit",
@@ -386,13 +394,7 @@ fun UnitConverter() {
                 fontFamily = fontFamily,
                 textAlign = TextAlign.Center)
         }
-
-
-
-
     }
-
-
 }
 
 @Preview(showBackground = true)
